@@ -8,14 +8,34 @@ import org.springframework.stereotype.Repository;
 import dao.CustomerDao;
 import pojo.Customer;
 
-@Repository
-public class CustomerDaoImpl implements CustomerDao{
-	@PersistenceContext(name="em")
-	private EntityManager manager;
-	@Override
-	public Customer addCustomer(Customer c) {
-		manager.persist(c);
-		return c;
-	}
+import java.util.List;
 
+@Repository
+public class CustomerDaoImpl implements CustomerDao {
+    @PersistenceContext(name = "em")
+    private EntityManager manager;
+
+    @Override
+    public Customer addCustomer(Customer c) {
+        manager.persist(c);
+        return c;
+    }
+
+    public void delete(String id) {
+        Customer c = manager.getReference(Customer.class, id);
+        manager.remove(c);
+    }
+
+    public Customer update(Customer c) {
+        Customer c1 = manager.merge(c);
+        return c1;
+    }
+
+    public List<Customer> findAllCustomers() {
+        String jpql = "from Custoemr";
+        List<Customer> customers = manager
+                .createQuery(jpql)
+                .getResultList();
+        return customers;
+    }
 }

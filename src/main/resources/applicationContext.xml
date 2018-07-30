@@ -21,9 +21,9 @@
 	
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@10.211.55.4:1521:xe"></property>
-		<property name="password" value="123"></property>
-		<property name="username" value="john"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="password" value="1234"></property>
+		<property name="username" value="hugo"></property>
 	</bean>
 		<!--
 		指定实现JPA的适配器，主要作用如下：

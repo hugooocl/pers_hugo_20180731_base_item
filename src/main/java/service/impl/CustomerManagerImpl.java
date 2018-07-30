@@ -8,8 +8,10 @@ import dao.CustomerDao;
 import pojo.Customer;
 import service.CustomerManager;
 
+import java.util.List;
+
 @Service
-public class CustomerManagerImple implements CustomerManager{
+public class CustomerManagerImpl implements CustomerManager{
 	@Autowired
 	private CustomerDao customerDao;
 	@Transactional
@@ -17,5 +19,19 @@ public class CustomerManagerImple implements CustomerManager{
 	public Customer registCustomer(Customer c) {
 		return customerDao.addCustomer(c);
 	}
-
+	@Transactional
+	@Override
+	public Customer updateCustomer(Customer c) {
+		return customerDao.update(c);
+	}
+	@Transactional
+	@Override
+	public void delete(String id) {
+		customerDao.delete(id);
+	}
+	@Transactional
+	@Override
+	public List<Customer> findAllCustomers() {
+		return customerDao.findAllCustomers();
+	}
 }
