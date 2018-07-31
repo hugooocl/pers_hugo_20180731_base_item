@@ -10,7 +10,8 @@ import javax.persistence.PersistenceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@CrossOrigin(origins = "*",maxAge = 3600)
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("customers")
 public class CustomerController {
@@ -19,6 +20,8 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Customer addCustomer(@RequestBody Customer c) {
+
+
         return customerManager.registCustomer(c);
     }
 
@@ -41,16 +44,15 @@ public class CustomerController {
 
     @ResponseBody
     @ExceptionHandler(value = PersistenceException.class)
-    public Map<String, ErrorMessage> handlePresistenceExcpetion(Exception e){
-        Map<String,ErrorMessage> map = new HashMap<String, ErrorMessage>();
+    public Map<String, ErrorMessage> handlePresistenceExcpetion(Exception e) {
+        Map<String, ErrorMessage> map = new HashMap<String, ErrorMessage>();
 
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setCode("409");
         errorMessage.setReason("object already deleted");
-        map.put("error",errorMessage);
+        map.put("error", errorMessage);
         return map;
     }
-
 
 
 }

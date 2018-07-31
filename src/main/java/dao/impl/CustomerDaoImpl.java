@@ -32,7 +32,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     public List<Customer> findAllCustomers() {
-        String jpql = "from Custoemr";
+        String jpql = "from Customer";
         List<Customer> customers = manager
                 .createQuery(jpql)
                 .getResultList();
