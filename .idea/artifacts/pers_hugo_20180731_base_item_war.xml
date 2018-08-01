@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="pers_hugo_20180731_base_item:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="integrator.war">
+      <element id="artifact" artifact-name="pers_hugo_20180731_base_item:war exploded" />
+    </root>
+  </artifact>
+</component>

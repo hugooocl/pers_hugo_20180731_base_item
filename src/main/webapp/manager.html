@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>仓库管理</h1>
+    <form id="addBaseForm" action="#">
+        <label>base name：</label> <input type="text" name="baseName">
+        <input type="submit" value="add base">
+    </form>
+    <br>
+    <table id="baseList" border="1">
+        <thead>
+        <tr>
+            <th>baseId</th>
+            <th>baseName</th>
+            <th>option1</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <br>
+    <h2>商品</h2>
+    <table id="ItemList" border="1">
+        <thead>
+        <tr>
+            <th>ItemId</th>
+            <th>ItemName</th>
+            <th>ItemNumber</th>
+            <th>option1</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <form action="#" id="addItemForm">
+        <label>item name</label><input name="itemName"><br>
+        <label>item number</label><input name="itemNumber"><br>
+        <input type="submit" value="add item">
+    </form>
+</div>
+<script>
+    GetBaseData = function ($form) {
+
+        var base = {
+            "baseName": $form.find("input[name=baseName]").val(),
+        };
+        return base;
+    }
+    renderItem = function($table,data){
+        alert(JSON.stringify(data))
+        let tbody = $table.find("tbody")
+        tbody.html("")
+        tbody.html("")//清空tbody
+        data.forEach((item) => {
+            $("<tr>")
+    .append($("<td>").text(item.id))
+            .append($("<td>").text(item.itemName))
+            .append($("<td>").text(item.itemNumber))
+            .append($("<td>").append($("<button>").text("删除").on("click",(e)=>{
+                deleteItem(item.id,item.base.id);
+    })))
+    .appendTo(tbody)
+    })
+
+    }
+    renderBase = function ($table, data) {
+        let tbody = $table.find("tbody")
+        tbody.html("")
+        tbody.html("")//清空tbody
+        data.forEach((base) => {
+            $("<tr>")
+    .append($("<td>").text(base.id))
+            .append($("<td>").text(base.baseName))
+            .append($("<td>").append($("<button>").text("删除").on("click",(e)=>{
+                deleteBase(base.id);
+    }))).on("dblclick",(e)=>{
+            selectBase(base.id);
+    })
+    .appendTo(tbody)
+    })
+
+    }
+    deleteBase = function(id){
+        alert("delete" + id)
+
+        $.ajax({
+            type: "DELETE",
+            url: "base/"+id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                renderBase($("#baseList"), data);
+            }
+        });
+    }
+    deleteItem = function(id){
+        alert("delete" + id)
+
+        $.ajax({
+            type: "DELETE",
+            url: "item/"+id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert(JSON.stringify(data))
+
+                renderItem($("#ItemList"), data);
+            }
+        });
+    }
+    selectBase = function(id){
+        alert("select" + id)
+        $.ajax({
+            type: "GET",
+            url: "item/"+id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                renderItem($("#ItemList"), data);
+                // alert(JSON.stringify(data))
+            }
+        });
+    }
+    $(function () {
+        $("#addBaseForm").on("submit", (e) => {
+            e.preventDefault();
+        alert(JSON.stringify(GetBaseData($("#addBaseForm"))));
+        $.ajax({
+            type: "POST",
+            url: "base",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(GetBaseData($("#addBaseForm"))),
+            dataType: "json",
+            success: function (data) {
+                renderBase($("#baseList"), data);
+            }
+        });
+    })
+        renderInitBase = function () {
+            $.ajax({
+                type: "GET",
+                url: "base",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    renderBase($("#baseList"), data);
+                }
+            });
+        }
+
+        renderInitBase();
+    })
+</script>
+</body>
+</html>
